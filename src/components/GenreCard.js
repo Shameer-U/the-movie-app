@@ -1,20 +1,27 @@
-import { StyleSheet, Text, View, Dimensions} from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native'
 import COLORS from '../constants/Colors'
 
-const {width} = Dimensions.get('screen')
+const {height, width} = Dimensions.get('screen')
 
 const setWidth = (w) => (width / 100) * w;
 
-const GenreCard = () => {
+const GenreCard = ({genreName, active, onPress}) => {
     return(
-        <View style={StyleSheet.container}>
-            <Text>Action</Text>
-        </View>
+        <TouchableOpacity 
+          style={{
+            ...styles.genreContainer,
+            backgroundColor: active ? COLORS.ACTIVE : COLORS.WHITE,
+          }}
+          activeOpacity={0.5}
+          onPress={() => onPress(genreName)}
+        >
+            <Text style={{...styles.genreText, color: active ? COLORS.WHITE : COLORS.BLACK,}}>{genreName}</Text>
+        </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
+    genreContainer: {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 5,
@@ -22,8 +29,13 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         elevation: 3,
         marginVertical: 2,
-        width: 25,//setWidth(25),
+        //marginHorizontal: 2, //works
+        width: setWidth(25),
     },
+    genreText: {
+      fontSize: 13,
+      color: COLORS.ACTIVE,
+    }
 })
 
 export default GenreCard
