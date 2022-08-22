@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 import COLORS from '../constants/Colors'
+import FONTS from '../constants/Fonts'
 import GenreCard from '../components/GenreCard'
 import ItemSeperator from '../components/ItemSeperator';
 import { useState } from 'react';
@@ -53,10 +54,12 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 28,
+    fontFamily: FONTS.REGULAR,
   },
   headerSubTitle: {
     fontSize: 13,
     color: COLORS.ACTIVE,
+    fontFamily: FONTS.BOLD,
   },
   genreListContainer: {
     paddingVertical: 10,
