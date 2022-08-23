@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 import COLORS from '../constants/Colors'
 import FONTS from '../constants/Fonts'
 import GenreCard from '../components/GenreCard'
+import MovieCard from '../components/MovieCard'
 import ItemSeperator from '../components/ItemSeperator';
 import { useState } from 'react';
 
@@ -33,6 +34,20 @@ const HomeScreen = () => {
                active={item === activeGenre ? true : false}
                onPress={(genreName) => setActiveGenre(genreName)}
             />
+         )}
+        />
+      </View>
+      <View>
+        <FlatList
+         data={Genres} 
+         horizontal
+         keyExtractor={(item) => item}
+         showsHorizontalScrollIndicator={false}
+         ItemSeparatorComponent={() => <ItemSeperator width={5}/>}
+         ListHeaderComponent={() => <ItemSeperator width={5}/>}
+         ListFooterComponent={() => <ItemSeperator width={5}/>}
+         renderItem={({item}) => (
+            <MovieCard/>
          )}
         />
       </View>
