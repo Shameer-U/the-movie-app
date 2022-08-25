@@ -1,20 +1,25 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, ImageStore } from 'react-native'
 import COLORS from '../constants/Colors'
 import { Ionicons } from '@expo/vector-icons';
+import FONTS from '../constants/Fonts'
+import IMAGES from '../constants/Images'
 
 const movieCard = () => {
   return (
     <TouchableOpacity>
         <View style={styles.container}>
-            <Text>Movie</Text>
+            <View style={styles.imdbContainer}>
+                <Image source={IMAGES.IMDB} resizeMode="cover" style={styles.imdbImage}/>
+                <Text>9.4</Text>
+            </View>
         </View>
         <View>
-            <Text>URI - Surgical Strike</Text>
-            <View>
-                <Text>Hindi | U/A</Text>
-                <View>
-                    <Ionicons name="heart" size={24} color="black" />
+            <Text style={styles.movieTitle} numberOfLines={3}>URI - Surgical Strike</Text>
+            <View style={styles.movieSubTitleContainer}>
+                <Text style={styles.movieSubTitle}>Hindi | U/A</Text>
+                <View style={styles.rowAndCenter}>
+                    <Ionicons name="heart" size={17} color={COLORS.HEART} style={{marginRight: 5}}/>
                     <Text>90%</Text>
                 </View>
             </View>
@@ -31,7 +36,42 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         elevation: 5,
         marginVertical: 2,
+    },
+    movieTitle: {
+        fontFamily: FONTS.EXTRA_BOLD,
+        color: COLORS.GRAY,
+        paddingVertical: 2,
+        marginTop: 5,
+        width: 230,
+    },
+    movieSubTitle: {
+        fontSize: 12,
+        fontFamily: FONTS.REGULAR,
+    },
+    movieSubTitleContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    rowAndCenter: {
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+    imdbContainer: {
+        flexDirection: 'row', 
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        backgroundColor: COLORS.YELLOW,
+        borderBottomLeftRadius: 5,
+        borderTopRightRadius: 12,
+        paddingVertical: 3,
+    },
+    imdbImage: {
+        height: 20,
+        width: 50,
+        borderBottomLeftRadius: 5,
     }
+
 })
 
 export default movieCard
