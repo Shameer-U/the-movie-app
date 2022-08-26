@@ -1,11 +1,13 @@
-import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, ImageStore } from 'react-native'
+import React, {useState} from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Image, ImageStore, TouchableNativeFeedback } from 'react-native'
 import COLORS from '../constants/Colors'
 import { Ionicons } from '@expo/vector-icons';
 import FONTS from '../constants/Fonts'
 import IMAGES from '../constants/Images'
 
 const movieCard = () => {
+  const [liked, setLiked] = useState(false);
+   
   return (
     <TouchableOpacity>
         <View style={styles.container}>
@@ -13,6 +15,12 @@ const movieCard = () => {
                 <Image source={IMAGES.IMDB} resizeMode="cover" style={styles.imdbImage}/>
                 <Text>9.4</Text>
             </View>
+            <TouchableNativeFeedback onPress={() => setLiked(!liked)}>
+                <Ionicons name={liked ? "heart" : "heart-outline"} 
+                 size={25} 
+                 color={liked ? COLORS.HEART : COLORS.WHITE}
+                 style={{ position: "absolute", bottom: 10, left:10 }}/>
+            </TouchableNativeFeedback>
         </View>
         <View>
             <Text style={styles.movieTitle} numberOfLines={3}>URI - Surgical Strike</Text>
