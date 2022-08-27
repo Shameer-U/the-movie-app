@@ -1,34 +1,49 @@
 import React, {useState} from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, ImageStore, TouchableNativeFeedback } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, ImageStore, TouchableNativeFeedback, ImageBackground } from 'react-native'
 import COLORS from '../constants/Colors'
 import { Ionicons } from '@expo/vector-icons';
 import FONTS from '../constants/Fonts'
 import IMAGES from '../constants/Images'
+import { getPoster, getLanguage } from '../services/MovieService'
 
-const movieCard = () => {
+const movieCard = ({title, language, voteAverage, voteCount, poster, size, heartLess}) => {
   const [liked, setLiked] = useState(false);
+  const [voteCountValue, setVoteCountValue] = useState(voteCount);
    
   return (
-    <TouchableOpacity>
-        <View style={styles.container}>
-            <View style={styles.imdbContainer}>
-                <Image source={IMAGES.IMDB} resizeMode="cover" style={styles.imdbImage}/>
-                <Text>9.4</Text>
+    <TouchableOpacity activeOpacity={0.8}>
+        <ImageBackground 
+          style={{...styles.container, width: 230* size, height: 340 * size}} 
+          imageStyle={{borderRadius: 12}} 
+          source={{ uri: getPoster(poster) }}
+        >
+            <View style={{...styles.imdbContainer, paddingVertical: 3 * size}}>
+                <Image source={IMAGES.IMDB} 
+                   resizeMode="cover" 
+                   style={{...styles.imdbImage, height: 20 * size, width: 50 * size}}
+                />
+                <Text style={{...styles.imdbRating, marginRight: 5 * size, fontSize: 14 * size,}}>{voteAverage}</Text>
             </View>
-            <TouchableNativeFeedback onPress={() => setLiked(!liked)}>
+           {!heartLess ? (
+             <TouchableNativeFeedback 
+               onPress={() => {setLiked(!liked) 
+                setVoteCountValue(liked ? voteCountValue - 1 : voteCountValue + 1)
+               }}
+              >
                 <Ionicons name={liked ? "heart" : "heart-outline"} 
-                 size={25} 
+                 size={25 * size} 
                  color={liked ? COLORS.HEART : COLORS.WHITE}
                  style={{ position: "absolute", bottom: 10, left:10 }}/>
             </TouchableNativeFeedback>
-        </View>
+            ) : null }
+        </ImageBackground>
         <View>
-            <Text style={styles.movieTitle} numberOfLines={3}>URI - Surgical Strike</Text>
+            <Text style={{...styles.movieTitle, width: 230 * size}} numberOfLines={3}>{title}</Text>
             <View style={styles.movieSubTitleContainer}>
-                <Text style={styles.movieSubTitle}>Hindi | U/A</Text>
+                <Text style={styles.movieSubTitle}>{getLanguage(language).english_name}</Text>
                 <View style={styles.rowAndCenter}>
-                    <Ionicons name="heart" size={17} color={COLORS.HEART} style={{marginRight: 5}}/>
-                    <Text>90%</Text>
+                    <Ionicons name="heart" size={17 * size} color={COLORS.HEART} style={{marginRight: 5}}/>
+                    <Text>{voteCountValue}</Text>
                 </View>
             </View>
         </View>
@@ -78,8 +93,17 @@ const styles = StyleSheet.create({
         height: 20,
         width: 50,
         borderBottomLeftRadius: 5,
-    }
-
+    },
+    imdbRating: {
+        marginRight: 5,
+        color: COLORS.HEART,
+        fontFamily: FONTS.EXTRA_BOLD,
+    },
 })
+
+movieCard.defaultProps = {
+    size: 1,
+    heartLess: true,
+};
 
 export default movieCard

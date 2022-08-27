@@ -5,33 +5,41 @@ import FONTS from '../constants/Fonts'
 import GenreCard from '../components/GenreCard'
 import MovieCard from '../components/MovieCard'
 import ItemSeperator from '../components/ItemSeperator';
-import { useState } from 'react';
-
-const Genres = ['All', 'Action', 'Comedy', 'Romance', 'Horror', 'Sci-Fi']
+import { useState, useEffect } from 'react';
+import { getNowPlayingMovies, getUpcomingMovies, getAllGenres } from "../services/MovieService"
 
 const HomeScreen = () => {
   const [activeGenre, setActiveGenre] = useState("All")
+  const [nowPlayingMovies, setNowPlayingMovies] = useState({})
+  const [upcomingMovies, setUpcomingMovies] = useState({})
+  const [genres, setGenres] = useState([{ id: 11111111111111111, name: "All" }])
+
+  useEffect(() => {
+    getNowPlayingMovies().then(movieResponse => setNowPlayingMovies(movieResponse.data))
+    getUpcomingMovies().then((movieResponse) => setUpcomingMovies(movieResponse.data))
+    getAllGenres().then((genreResponse) => setGenres([...genres, ...genreResponse.data.genres]))
+  }, [])
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView styles={styles.container}>
       <StatusBar style="auto" translucent={false} backgroundColor={COLORS.BASIC_BACKGROUND}/>
       <View style={styles.headerContainer}>
-        <Text style={styles.headerTitle}>Now Playing</Text>
+        <Text style={styles.headerTitle}>Now Showing</Text>
         <Text style={styles.headerSubTitle}>VIEW ALL</Text>
       </View>
       <View style={styles.genreListContainer}>
         <FlatList
-         data={Genres} 
+         data={genres} 
          horizontal
-         keyExtractor={(item) => item}
+         keyExtractor={(item) => item.id.toString()}
          showsHorizontalScrollIndicator={false}
          ItemSeparatorComponent={() => <ItemSeperator width={5}/>}
          ListHeaderComponent={() => <ItemSeperator width={5}/>}
          ListFooterComponent={() => <ItemSeperator width={5}/>}
          renderItem={({item}) => (
             <GenreCard 
-               genreName={item}
-               active={item === activeGenre ? true : false}
+               genreName={item.name}
+               active={item.name === activeGenre ? true : false}
                onPress={(genreName) => setActiveGenre(genreName)}
             />
          )}
@@ -39,15 +47,47 @@ const HomeScreen = () => {
       </View>
       <View>
         <FlatList
-         data={Genres} 
+         data={nowPlayingMovies.results} 
          horizontal
-         keyExtractor={(item) => item}
+         keyExtractor={(item) => item.id.toString()}
          showsHorizontalScrollIndicator={false}
          ItemSeparatorComponent={() => <ItemSeperator width={5}/>}
          ListHeaderComponent={() => <ItemSeperator width={5}/>}
          ListFooterComponent={() => <ItemSeperator width={5}/>}
          renderItem={({item}) => (
-            <MovieCard/>
+            <MovieCard 
+              title={item.title} 
+              language={item.original_language}
+              voteAverage={item.vote_average}
+              voteCount={item.vote_count}
+              poster={item.poster_path}
+              heartLess={false}
+            />
+         )}
+        />
+      </View>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerTitle}>Coming Soon</Text>
+        <Text style={styles.headerSubTitle}>VIEW ALL</Text>
+      </View>
+      <View>
+        <FlatList
+         data={upcomingMovies.results} 
+         horizontal
+         keyExtractor={(item) => item.id.toString()}
+         showsHorizontalScrollIndicator={false}
+         ItemSeparatorComponent={() => <ItemSeperator width={5}/>}
+         ListHeaderComponent={() => <ItemSeperator width={5}/>}
+         ListFooterComponent={() => <ItemSeperator width={5}/>}
+         renderItem={({item}) => (
+            <MovieCard 
+              title={item.title} 
+              language={item.original_language}
+              voteAverage={item.vote_average}
+              voteCount={item.vote_count}
+              poster={item.poster_path}
+              size={0.6}
+            />
          )}
         />
       </View>
