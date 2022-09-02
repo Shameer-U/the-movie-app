@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar'
-import { ScrollView, StyleSheet, Text, View, Dimensions, Image, TouchableOpacity} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, Linking} from 'react-native';
 import COLORS from '../constants/Colors'
 import FONTS from '../constants/Fonts'
 import React, {useState, useEffect} from "react"
-import { getMovieById, getPoster } from '../services/MovieService'
+import { getMovieById, getPoster, getVideo } from '../services/MovieService'
 import ItemSeperator from '../components/ItemSeperator';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather, Ionicons } from '@expo/vector-icons';
+import { APPEND_TO_RESPONSE as AR } from '../constants/Urls'
 
 const {height, width} = Dimensions.get('screen')
 const setHeight = (h) => (height / 100) * h;
@@ -17,7 +18,7 @@ const MovieScreen = ({route, navigation}) => {
   const [movie, setMovie] = useState({})
 
   useEffect(() => {
-    getMovieById(movieId).then((response) => setMovie(response.data))
+    getMovieById(movieId, `${AR.VIDEOS}`).then((response) => setMovie(response.data))
   }, [])
   return (
     <ScrollView>
@@ -33,12 +34,14 @@ const MovieScreen = ({route, navigation}) => {
         />
       </View>
       <View style={styles.headerContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.goBack()}>
            <Feather name="chevron-left" size={35} color={COLORS.WHITE}/>
         </TouchableOpacity>
         <Text style={styles.headerText}>Share</Text>
       </View>
-      <TouchableOpacity style={styles.playButton}>
+      <TouchableOpacity style={styles.playButton}
+       onPress={() => Linking.openURL(getVideo(movie.videos.results[0].key))}
+       >
         <Ionicons name="play-circle-outline" size={70} color={COLORS.WHITE}/>
       </TouchableOpacity>
       <ItemSeperator height={setHeight(37)} />
