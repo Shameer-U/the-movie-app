@@ -2,10 +2,10 @@ import {View, Dimensions} from "react-native"
 
 const {height, width} = Dimensions.get('screen')
 
-const setWidth = (w) => (width / 100) * w;
+//const setWidth = (w) => (width / 100) * w;
 
 const ItemSeperator = ({height, width}) => {
-    return <View style={{ width: setWidth(width),height, backgroundColor: 'red'}}/>
+    return <View style={{ width: width,height, backgroundColor: 'red'}}/>
 }
 
 ItemSeperator.defaultProps = {

@@ -33,9 +33,9 @@ const HomeScreen = ({navigation}) => {
          horizontal
          keyExtractor={(item) => item.id.toString()}
          showsHorizontalScrollIndicator={false}
-         ItemSeparatorComponent={() => <ItemSeperator width={5}/>}
-         ListHeaderComponent={() => <ItemSeperator width={5}/>}
-         ListFooterComponent={() => <ItemSeperator width={5}/>}
+         ItemSeparatorComponent={() => <ItemSeperator width={15}/>}
+         ListHeaderComponent={() => <ItemSeperator width={15}/>}
+         ListFooterComponent={() => <ItemSeperator width={15}/>}
          renderItem={({item}) => (
             <GenreCard 
                genreName={item.name}
@@ -51,9 +51,9 @@ const HomeScreen = ({navigation}) => {
          horizontal
          keyExtractor={(item) => item.id.toString()}
          showsHorizontalScrollIndicator={false}
-         ItemSeparatorComponent={() => <ItemSeperator width={5}/>}
-         ListHeaderComponent={() => <ItemSeperator width={5}/>}
-         ListFooterComponent={() => <ItemSeperator width={5}/>}
+         ItemSeparatorComponent={() => <ItemSeperator width={20}/>}
+         ListHeaderComponent={() => <ItemSeperator width={20}/>}
+         ListFooterComponent={() => <ItemSeperator width={20}/>}
          renderItem={({item}) => (
             <MovieCard 
               title={item.title} 
@@ -77,9 +77,9 @@ const HomeScreen = ({navigation}) => {
          horizontal
          keyExtractor={(item) => item.id.toString()}
          showsHorizontalScrollIndicator={false}
-         ItemSeparatorComponent={() => <ItemSeperator width={5}/>}
-         ListHeaderComponent={() => <ItemSeperator width={5}/>}
-         ListFooterComponent={() => <ItemSeperator width={5}/>}
+         ItemSeparatorComponent={() => <ItemSeperator width={20}/>}
+         ListHeaderComponent={() => <ItemSeperator width={20}/>}
+         ListFooterComponent={() => <ItemSeperator width={20}/>}
          renderItem={({item}) => (
             <MovieCard 
               title={item.title} 
